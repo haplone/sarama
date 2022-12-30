@@ -1,6 +1,7 @@
 package sarama
 
 import (
+	"github.com/stretchr/testify/assert"
 	"os"
 	"testing"
 
@@ -23,6 +24,9 @@ func TestInvalidClientIDConfigValidates(t *testing.T) {
 	if err := config.Validate(); string(err.(ConfigurationError)) != "ClientID is invalid" {
 		t.Error("Expected invalid ClientID, got ", err)
 	}
+	config.ClientID = "token#pwd#user"
+	err := config.Validate()
+	assert.Nil(t, err)
 }
 
 func TestEmptyClientIDConfigValidates(t *testing.T) {
